@@ -19,16 +19,38 @@ ls -al ${deps_path}/1
 echo "VA: "
 echo ${VCAP_APPLICATION}
 
+if [[ -z "SFX_AGENT_PROXY" ]]; then
+    CURL="curl"
+else
+    CURL="curl --proxy ${SFX_AGENT_PROXY}"
+fi
+
+
 if [[ -z "${SFX_AGENT_LOC}" ]]; then
   SFX_AGENT_LOC="https://search.maven.org/remote_content?g=com.signalfx.public&a=signalfx-java-agent&v=LATEST&c=unbundled"
 fi
 
-RESP=$(curl -LsIXGET -o /dev/null -w "%{http_code}" "${SFX_AGENT_LOC}")
+RESP=$(${CURL} -LsIXGET -o /dev/null -w "%{http_code}" "${SFX_AGENT_LOC}")
 
 if [ "${RESP}" == "200" ]; then
     echo "GOT 200"
+    FILE=$(curl  -LsIXGET  "${SFX_AGENT_LOC}" | grep "^location:" | awk -F/ '{print $NF}')
+    echo "File: ${FILE}
+    if [ -f "${cache_path}/${FILE}" ]; then
+        echo "File already in cache"
+    else
+        curl -sSL -o ${cache_path}/${FILE} $SFX_AGENT_LOC
+    fi
 else
-    echo  "GOT ${RESP}"
+    echo  "GOT ${RESP} - can't download agent.  Staging will likely fail, but will try with cached version."
 fi
+
+if [ ! -f "${cache_path}/${FILE}" ]; then
+    echo "Expected to find ${cache_path}/${FILE} - but didn't.  Exiting.
+    exit 1
+fi
+
+echo "Copying agent to ${deps_path}/${index}/${FILE} -- Feel free to reference it in your JAVA_OPTS.  I can't seem to do it for you.  Sorry :( "
+cp ${cache_path}/${FILE} ${deps_path}/${index}/
 
 
