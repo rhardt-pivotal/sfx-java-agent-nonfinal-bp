@@ -25,13 +25,13 @@ echo "RESP: ${RESP}"
 
 if [ "${RESP}" == "200" ]; then
     echo "GOT 200"
-    # FILE=$(${CURL}  -LsIXGET  "${SFX_AGENT_LOC}" | grep "^location:" | awk -F/ '{print $NF}')
-    # echo "File: ${FILE}
-    # if [ -f "${cache_path}/${FILE}" ]; then
-    #    echo "File already in cache"
-    # else
-    #    curl -sSL -o ${cache_path}/${FILE} $SFX_AGENT_LOC
-    # fi
+    FILE=$(${CURL}  -LsIXGET  "${SFX_AGENT_LOC}" | grep "^location:" | awk -F/ '{print $NF}')
+    echo "File: ${FILE}
+    if [ -f "${cache_path}/${FILE}" ]; then
+       echo "File already in cache"
+    else
+       curl -sSL -o ${cache_path}/${FILE} $SFX_AGENT_LOC
+    fi
 else
     echo  "GOT ${RESP} - can't download agent.  Staging will likely fail, but will try with cached version."
 fi
