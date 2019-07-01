@@ -40,8 +40,8 @@ else
     echo  "GOT ${RESP} - cannot download agent.  Staging will likely fail, but will try with cached version."
 fi
 
-if [ ! -f "${cache_path}/${FILE}" ]; then
-    echo "Expected to find ${cache_path}/${FILE} - but didnt.  Exiting."
+if [ ! -f "${cache_path}/${SFX_AGENT_FILE}" ]; then
+    echo "Expected to find ${cache_path}/${SFX_AGENT_FILE} - but didnt.  Exiting."
     exit 1
 fi
 
