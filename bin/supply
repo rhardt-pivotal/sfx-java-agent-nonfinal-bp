@@ -6,18 +6,6 @@ cache_path="${2}"
 deps_path="${3}"
 index="${4}"
 
-echo "BP: $build_path\n"
-ls -al $build_path
-echo "CP: $cache_path\n"
-ls -al $cache_path
-echo "DP: $deps_path\n"
-ls -al $deps_path
-echo "IDX: $index\n"
-ls -al ${deps_path}/${index}
-ls -al ${deps_path}/1
-
-echo "VA: "
-echo ${VCAP_APPLICATION}
 
 if [ -z "${SFX_AGENT_PROXY}" ]; then
     CURL="curl"
@@ -33,6 +21,7 @@ if [[ -z "${SFX_AGENT_LOC}" ]]; then
 fi
 
 RESP=$(${CURL} -LsIXGET -o /dev/null -w "%{http_code}" "${SFX_AGENT_LOC}")
+echo "RESP: ${RESP}"
 
 if [ "${RESP}" == "200" ]; then
     echo "GOT 200"
