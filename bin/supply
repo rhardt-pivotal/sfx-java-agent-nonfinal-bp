@@ -14,3 +14,6 @@ echo "DP: $deps_path\n"
 ls -al $deps_path
 echo "IDX: $index\n"
 ls -al ${deps_path}/${index}
+
+export JAVA_OPTS="${JAVA_OPTS} -Dfoo2=bar2"
+
