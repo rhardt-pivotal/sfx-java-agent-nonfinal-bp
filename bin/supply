@@ -16,5 +16,8 @@ echo "IDX: $index\n"
 ls -al ${deps_path}/${index}
 ls -al ${deps_path}/1
 
+echo "VA: "
+echo ${VCAP_APPLICATION}
+
 export JAVA_OPTS="${JAVA_OPTS} -Dfoo2=bar2"
 
