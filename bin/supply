@@ -19,7 +19,7 @@ ls -al ${deps_path}/1
 echo "VA: "
 echo ${VCAP_APPLICATION}
 
-if [ -z "SFX_AGENT_PROXY" ]; then
+if [ -z "${SFX_AGENT_PROXY}" ]; then
     CURL="curl"
 else
     CURL="curl --proxy ${SFX_AGENT_PROXY}"
