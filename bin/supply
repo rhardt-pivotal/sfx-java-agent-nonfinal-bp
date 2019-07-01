@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 
-build_path = "${1}"
-cache_path = "${2}"
-deps_path = "${3}"
-index = "${4}"
+build_path="${1}"
+cache_path="${2}"
+deps_path="${3}"
+index="${4}"
 
 echo "BP: $build_path\n"
 ls -al $build_path
