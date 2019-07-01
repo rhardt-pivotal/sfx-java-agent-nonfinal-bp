@@ -7,6 +7,7 @@ cache_path="${2}"
 deps_path="${3}"
 index="${4}"
 
+STANDARD_NAME="signalfx-java-agent.jar"
 
 if [ -z "${SFX_AGENT_PROXY}" ]; then
     CURL="curl"
@@ -43,6 +44,6 @@ if [ ! -f "${cache_path}/${FILE}" ]; then
 fi
 
 echo "Copying agent to ${deps_path}/${index}/${FILE} -- Feel free to reference it in your JAVA_OPTS.  I cant seem to do it for you.  Sorry :( "
-cp ${cache_path}/${FILE} ${deps_path}/${index}/
+cp ${cache_path}/${FILE} ${deps_path}/${index}/${STANDARD_NAME}
 
 
