@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set +ex
+set -ex
 
 build_path="${1}"
 cache_path="${2}"
@@ -27,7 +27,7 @@ echo "RESP: ${RESP}"
 if [ "${RESP}" == "200" ]; then
     echo "GOT 200"
     FILE=$(${CURL}  -LsIXGET  "${SFX_AGENT_LOC}" | grep "^location:" | awk -F/ '{print $NF}' | tr -d '\n')
-    echo "File: ${FILE}
+    echo "File: ${FILE}"
     if [ -f "${cache_path}/${FILE}" ]; then
        echo "File already in cache"
     else
