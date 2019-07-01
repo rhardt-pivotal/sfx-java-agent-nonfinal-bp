@@ -19,5 +19,16 @@ ls -al ${deps_path}/1
 echo "VA: "
 echo ${VCAP_APPLICATION}
 
-export JAVA_OPTS="${JAVA_OPTS} -Dfoo2=bar2"
+if [[ -z "${AGENT_LOC}" ]]; then
+  AGENT_LOC="https://search.maven.org/remote_content?g=com.signalfx.public&a=signalfx-java-agent&v=LATEST&c=unbundled"
+fi
+
+RESP=$(curl -LsIXGET -o /dev/null -w "%{http_code}" "${AGENT_LOC}")
+
+if [ "${RESP}" == "200" ]; then
+    echo "GOT 200"
+else
+    echo  "GOT ${RESP}"
+fi
+
 
