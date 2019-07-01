@@ -19,11 +19,13 @@ ls -al ${deps_path}/1
 echo "VA: "
 echo ${VCAP_APPLICATION}
 
-if [[ -z "SFX_AGENT_PROXY" ]]; then
+if [ -z "SFX_AGENT_PROXY" ]; then
     CURL="curl"
 else
     CURL="curl --proxy ${SFX_AGENT_PROXY}"
 fi
+
+echo "curl command: $CURL"
 
 
 if [[ -z "${SFX_AGENT_LOC}" ]]; then
@@ -34,7 +36,7 @@ RESP=$(${CURL} -LsIXGET -o /dev/null -w "%{http_code}" "${SFX_AGENT_LOC}")
 
 if [ "${RESP}" == "200" ]; then
     echo "GOT 200"
-    FILE=$(curl  -LsIXGET  "${SFX_AGENT_LOC}" | grep "^location:" | awk -F/ '{print $NF}')
+    FILE=$(${CURL}  -LsIXGET  "${SFX_AGENT_LOC}" | grep "^location:" | awk -F/ '{print $NF}')
     echo "File: ${FILE}
     if [ -f "${cache_path}/${FILE}" ]; then
         echo "File already in cache"
