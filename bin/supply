@@ -19,7 +19,11 @@ echo "curl command: $CURL"
 
 
 if [[ -z "${SFX_AGENT_LOC}" ]]; then
-  SFX_AGENT_LOC="https://search.maven.org/remote_content?g=com.signalfx.public&a=signalfx-java-agent&v=LATEST&c=unbundled"
+  SFX_AGENT_LOC="https://repo1.maven.org/maven2/com/signalfx/public/signalfx-java-agent/0.28.0-sfx0/signalfx-java-agent-0.28.0-sfx0-unbundled.jar"
+fi
+
+if [[ -z "${SFX_AGENT_FILE}" ]]; then
+  SFX_AGENT_FILE=$(echo ${SFX_AGENT_LOC} | awk -F/ '{print $NF}' | tr -d '\n' | tr -d '\r')
 fi
 
 RESP=$(${CURL} -LsIXGET -o /dev/null -w "%{http_code}" "${SFX_AGENT_LOC}")
@@ -27,12 +31,10 @@ echo "RESP: ${RESP}"
 
 if [ "${RESP}" == "200" ]; then
     echo "GOT 200"
-    FILE=$(${CURL}  -LsIXGET  "${SFX_AGENT_LOC}" | grep "^location:" | awk -F/ '{print $NF}' | tr -d '\n' | tr -d '\r')
-    echo "File: ${FILE}"
-    if [ -f "${cache_path}/${FILE}" ]; then
+    if [ -f "${cache_path}/${SFX_AGENT_FILE}" ]; then
        echo "File already in cache"
     else
-       curl -sSL -o ${cache_path}/${FILE} $SFX_AGENT_LOC
+       curl -sSL -o "${cache_path}/${SFX_AGENT_FILE}" "${SFX_AGENT_LOC}"
     fi
 else
     echo  "GOT ${RESP} - cannot download agent.  Staging will likely fail, but will try with cached version."
@@ -43,7 +45,7 @@ if [ ! -f "${cache_path}/${FILE}" ]; then
     exit 1
 fi
 
-echo "Copying agent to ${deps_path}/${index}/${FILE} -- Feel free to reference it in your JAVA_OPTS.  I cant seem to do it for you.  Sorry :( "
-cp ${cache_path}/${FILE} ${deps_path}/${index}/${STANDARD_NAME}
+echo "Copying agent to ${deps_path}/${index}/${STANDARD_NAME} -- Feel free to reference it in your JAVA_OPTS.  I cant seem to do it for you.  Sorry :( "
+cp ${cache_path}/${SFX_AGENT_FILE} ${deps_path}/${index}/${STANDARD_NAME}
 
 
