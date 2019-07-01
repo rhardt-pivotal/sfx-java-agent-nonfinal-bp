@@ -34,15 +34,15 @@ if [ "${RESP}" == "200" ]; then
        curl -sSL -o ${cache_path}/${FILE} $SFX_AGENT_LOC
     fi
 else
-    echo  "GOT ${RESP} - can't download agent.  Staging will likely fail, but will try with cached version."
+    echo  "GOT ${RESP} - cannot download agent.  Staging will likely fail, but will try with cached version."
 fi
 
 if [ ! -f "${cache_path}/${FILE}" ]; then
-    echo "Expected to find ${cache_path}/${FILE} - but didn't.  Exiting.
+    echo "Expected to find ${cache_path}/${FILE} - but didnt.  Exiting."
     exit 1
 fi
 
-echo "Copying agent to ${deps_path}/${index}/${FILE} -- Feel free to reference it in your JAVA_OPTS.  I can't seem to do it for you.  Sorry :( "
+echo "Copying agent to ${deps_path}/${index}/${FILE} -- Feel free to reference it in your JAVA_OPTS.  I cant seem to do it for you.  Sorry :( "
 cp ${cache_path}/${FILE} ${deps_path}/${index}/
 
 
