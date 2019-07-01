@@ -7,6 +7,10 @@ deps_path = $3
 index = $4
 
 echo "BP: $build_path\n"
+ls -al $build_path
 echo "CP: $cache_path\n"
+ls -al $cache_path
 echo "DP: $deps_path\n"
+ls -al $deps_path
 echo "IDX: $index\n"
+ls -al ${deps_path}/${index}
