@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+
+build_path = $1
+cache_path = $2
+deps_path = $3
+index = $4
+
+echo "BP: $build_path\n"
+echo "CP: $cache_path\n"
+echo "DP: $deps_path\n"
+echo "IDX: $index\n"
